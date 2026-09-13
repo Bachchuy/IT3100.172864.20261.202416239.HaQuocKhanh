@@ -1,0 +1,2 @@
+Bài 4.1:
+Giá trị được in ra cho roundedCost là 19 vì bị cắt phần thập phân, không phải được làm tròn đến số nguyên gần nhất. Biến cost có giá trị 19.95. Khi ép kiểu sang int bằng (int) cost, phần thập phân (.95) bị loại bỏ.
