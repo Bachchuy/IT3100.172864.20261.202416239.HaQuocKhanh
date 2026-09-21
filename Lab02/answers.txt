@@ -1,0 +1,10 @@
+bài 4.1
+1.
+Khi người dùng chọn "Cancel", hàm sẽ trả về giá trị JOptionPane.CANCEL_OPTION (bằng 2). 
+Khi so sánh điều kiện option == JOptionPane.YES_OPTION (bằng 0),
+ biểu thức trả về false, nên chương trình sẽ in ra: "You've chosen: No".   
+2.
+Để tùy chỉnh hộp thoại thành "Yes/No", ta có thể thêm tham số JOptionPane.YES_NO_OPTION
+ vào hàm showConfirmDialog. 
+Để đổi thành nút "I do / I don't", ta phải sử dụng hàm JOptionPane.showOptionDialog 
+và truyền vào một mảng chứa tên nút: Object[] options = {"I do", "I don't"};.
