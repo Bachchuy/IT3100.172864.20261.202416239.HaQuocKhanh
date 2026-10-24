@@ -1,0 +1,45 @@
+============================================================
+LAB 04: ANSWERS TO QUESTIONS
+============================================================
+
+--- Section 5: Create Constructor Methods ---
+Question:
+Suppose you write one constructor that builds a DVD from its title, and then another that builds a DVD from its category. Does Java allow this? Why?
+
+Answer:
+Không, Java không cho phép điều này.
+
+Trong Java, cơ chế nạp chồng (overloading) phân biệt các constructor hoặc phương thức dựa trên chữ ký (signature) của danh sách tham số (khác nhau về số lượng tham số, kiểu dữ liệu, hoặc thứ tự các kiểu dữ liệu). 
+Trong trường hợp này, cả hai thuộc tính `title` và `category` đều có cùng kiểu dữ liệu là `String`. Do đó, cả hai constructor sẽ có cùng một chữ ký giống hệt nhau là `DigitalVideoDisc(String)`. Trình biên dịch (compiler) sẽ báo lỗi trùng lặp (duplicate method/constructor) vì không thể phân biệt được constructor nào cần gọi khi truyền vào một chuỗi `String`.
+
+
+--- Section 9.1: Overloading by differing the type of the parameter ---
+Question:
+Compare the varargs version with the array version. Which one do you prefer in this case, and why?
+
+Answer:
+1. So sánh:
+- Phiên bản mảng (Array - `DigitalVideoDisc[] dvdList`): Người gọi hàm (caller) bắt buộc phải đóng gói các phần tử vào một mảng tường minh trước khi truyền vào phương thức (ví dụ: `new DigitalVideoDisc[]{dvd1, dvd2}`).
+- Phiên bản varargs (`DigitalVideoDisc... dvdList`): Bản chất trình biên dịch vẫn chuyển đổi danh sách tham số thành một mảng, nhưng phía gọi hàm có cú pháp linh hoạt hơn nhiều. Ta có thể truyền trực tiếp danh sách các đối tượng ngăn cách bằng dấu phẩy (không giới hạn số lượng), hoặc truyền trực tiếp một mảng có sẵn.
+
+2. Lựa chọn ưu tiên:
+Tôi ưu tiên sử dụng phiên bản varargs (`DigitalVideoDisc... dvdList`).
+
+Phiên bản varargs mang lại sự tiện lợi và mã nguồn phía gọi hàm gọn gàng hơn rất nhiều (ví dụ có thể gọi trực tiếp: `cart.addDigitalVideoDisc(dvd1, dvd2, dvd3);`). Đồng thời, nó vẫn giữ được khả năng tương thích hoàn toàn nếu muốn truyền vào một mảng `DigitalVideoDisc[]` có sẵn.
+
+
+--- Section 10: Passing Arguments to Methods ---
+Question 1:
+After the call swap(jungleDVD, cinderellaDVD), why do the titles of these two objects stay the same?
+
+Answer:
+Java luôn là ngôn ngữ truyền tham số theo giá trị (strictly pass-by-value). Khi truyền một đối tượng vào phương thức, Java sẽ tạo ra một bản sao của giá trị tham chiếu (địa chỉ trỏ đến đối tượng trong bộ nhớ).
+Bên trong phương thức `swap(Object o1, Object o2)`, `o1` và `o2` chỉ là các biến tham chiếu cục bộ (bản sao). Thao tác hoán đổi giá trị giữa `o1` và `o2` chỉ thay đổi hướng trỏ của hai biến bản sao này trong phạm vi cục bộ của hàm `swap`, hoàn toàn không ảnh hưởng tới các biến tham chiếu gốc `jungleDVD` và `cinderellaDVD` ở hàm `main()`. Vì vậy, hai biến ban đầu vẫn trỏ về các đối tượng cũ và tiêu đề của chúng không hề thay đổi.
+
+Question 2:
+After the call changeTitle(jungleDVD, cinderellaDVD.getTitle()), why is the title of jungleDVD changed?
+
+Answer:
+Mặc dù tham số truyền vào phương thức là một bản sao của biến tham chiếu, nhưng bản sao này vẫn trỏ tới đúng đối tượng `DigitalVideoDisc` thực tế đang tồn tại trên vùng nhớ heap.
+Khi gọi lệnh `dvd.setTitle(title)`, phương thức đã sử dụng tham chiếu đó để truy cập và sửa đổi trực tiếp trạng thái/dữ liệu bên trong của đối tượng thực tế trên heap. Do đó, sự thay đổi tiêu đề này được lưu lại và ảnh hưởng ra cả ngoài hàm `main()`.
+(Lưu ý: Dòng lệnh tiếp theo `dvd = new DigitalVideoDisc(oldTitle);` chỉ khởi tạo đối tượng mới và gán cho biến cục bộ `dvd`, hoàn toàn không làm thay đổi biến `jungleDVD` ban đầu).
